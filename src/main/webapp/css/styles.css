@@ -1,0 +1,7 @@
+.login-form {
+    text-align: center;
+}
+
+.login-form input, .login-form button{
+    margin-top: 15px;
+}

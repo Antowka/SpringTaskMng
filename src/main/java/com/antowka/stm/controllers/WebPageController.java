@@ -13,6 +13,6 @@ public class WebPageController {
 
     @RequestMapping("/")
     public String start() {
-        return "test";
+        return "login";
     }
 }
