@@ -5,13 +5,12 @@ package com.antowka.stm.controllers;
  * email: 662307@gmail.com
  */
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
 
-@Controller
+
 public class WebSocketController extends TextWebSocketHandler {
 
     @Override

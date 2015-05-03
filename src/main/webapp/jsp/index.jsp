@@ -10,9 +10,9 @@
 <html>
 <head>
   <title>Spring Task Manager</title>
-  <script src="resources-js/libs/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="resources-css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="resources-css/styles.css" />
+  <script src="js/libs/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/styles.css" />
 </head>
 
 <body ng-app="springTaskManager">
@@ -26,11 +26,11 @@
     </div>
 
   <footer>
-    <script src="resources-js/libs/bootstrap.min.js"></script>
-    <script src="resources-js/libs/angular.min.js"></script>
-    <script src="resources-js/controllers/loginController.js"></script>
-    <script src="resources-js/services/socketService.js"></script>
-    <script src="resources-js/app.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/libs/angular.min.js"></script>
+    <script src="js/controllers/loginController.js"></script>
+    <script src="js/services/socketService.js"></script>
+    <script src="js/app.js"></script>
   </footer>
 
 </body>

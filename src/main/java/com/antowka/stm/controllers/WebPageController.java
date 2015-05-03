@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebPageController {
 
     @RequestMapping("/")
-    public String start() {
-        return "login";
+    public String index() {
+        return "index";
     }
 }
