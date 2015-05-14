@@ -31,6 +31,7 @@ bootRepackage {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-websocket")
     compile("org.springframework:spring-messaging")
+    compile ("org.springframework.security:spring-security-web:4.0.1.RELEASE")
     providedCompile("org.apache.tomcat.embed:tomcat-embed-websocket")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     compile 'jstl:jstl:1.2'

@@ -13,5 +13,4 @@
               </websocket:handshake-interceptors>
        </websocket:handlers>
 
-
 </beans>
