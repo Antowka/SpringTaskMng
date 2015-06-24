@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <security:http use-expressions="true" auto-config="false" entry-point-ref="http403EntryPoint">
+        <security:intercept-url pattern="/logs/**" access="denyAll" />
+        <!-- ... All other intercept URL -->
+
+       <security:custom-filter ref="filterForAuth" position="FORM_LOGIN_FILTER"/>
+
+        <security:logout
+                invalidate-session="true"
+                logout-success-url="/LogoutSuccessful.htm"
+                />
+
+        <security:session-management>
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+        </security:session-management>
+
+        <security:access-denied-handler error-page="/accessDenied.htm" />
+    </security:http>
+
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="admin" password="pass" authorities="ROLE_ADMIN,ROLE_USER"/>
+                <security:user name="user1" password="1111" authorities="ROLE_USER"/>
+                <security:user name="user2" password="2222" disabled="true" authorities="ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="filterForAuth" class="com.antowka.stm.common.FilterForAuth">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationSuccessHandler" ref="authController"/>
+        <property name="authenticationFailureHandler" ref="failureHandler"/>
+        <property name="filterProcessesUrl" value="/j_spring_security_check"/>
+        <property name="usernameParameter" value="j_username"/>
+        <property name="passwordParameter" value="j_password"/>
+    </bean>
+
+    <bean id="authController" class="com.antowka.stm.controllers.AuthController">
+        <property name="defaultTargetUrl" value="/login.htm" />
+        <property name="targetUrlParameter" value="/LoginSuccessful.htm" />
+    </bean>
+
+    <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/login.htm" />
+    </bean>
+
+    <bean id="http403EntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+
+</beans>
