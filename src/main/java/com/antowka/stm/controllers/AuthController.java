@@ -1,6 +1,11 @@
 package com.antowka.stm.controllers;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -15,20 +20,30 @@ import java.io.IOException;
  */
 public class AuthController extends SimpleUrlAuthenticationSuccessHandler {
 
-    public void onAuthenticationSuccess(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication auth
-    )throws IOException, ServletException {
 
-        if ("application/json".equals(request.getHeader("Content-Type"))) {
-            /*
-             * USED if you want to AVOID redirect to LoginSuccessful.htm in JSON authentication
-             */
-            response.getWriter().print("{\"responseCode\":\"SUCCESS\"}");
-            response.getWriter().flush();
-        } else {
-            super.onAuthenticationSuccess(request, response, auth);
+    private AuthenticationManager authenticationManager;
+
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    public void auth(String username, String password) {
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+
+        try {
+            Authentication result = authenticationManager.authenticate(token);
+            SecurityContextHolder.getContext().setAuthentication(result);
+            SecurityContext test = SecurityContextHolder.getContext();
+            String tesst = "";
+            // do whatever you want here
+
+
+        } catch (AuthenticationException e) {
+
+        } finally {
+            SecurityContextHolder.clearContext();
         }
     }
+
 }

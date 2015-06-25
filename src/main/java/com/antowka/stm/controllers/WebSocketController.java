@@ -24,6 +24,8 @@ public class WebSocketController extends TextWebSocketHandler {
 
         TextMessage msg = new TextMessage(message.getPayload());
 
+        this.messageController.getTypeMessage(session, message);
+
         try {
             session.sendMessage(msg);
         } catch (IOException e) {

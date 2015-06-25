@@ -1,6 +1,7 @@
 package com.antowka.stm.controllers;
 
-import com.antowka.stm.common.AuthFilter;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 /**
  * Created by Anton Nikanorov on 6/25/15.
@@ -8,9 +9,13 @@ import com.antowka.stm.common.AuthFilter;
  */
 public class MessageController {
 
-    private AuthFilter authFilter;
+    private AuthController authController;
 
-    public void setAuthFilter(AuthFilter authFilter) {
-        this.authFilter = authFilter;
+    public void setAuthFilter(AuthController authController) {
+        this.authController = authController;
+    }
+
+    public void getTypeMessage(WebSocketSession session, TextMessage message){
+        this.authController.auth("admin2", "pass");
     }
 }

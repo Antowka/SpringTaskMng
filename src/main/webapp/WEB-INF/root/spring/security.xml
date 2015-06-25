@@ -16,22 +16,4 @@
         </security:authentication-provider>
     </security:authentication-manager>
 
-    <bean id="authFilter" class="com.antowka.stm.common.AuthFilter">
-        <property name="authenticationManager" ref="authenticationManager" />
-        <property name="authenticationSuccessHandler" ref="authController"/>
-        <property name="authenticationFailureHandler" ref="failureHandler"/>
-        <property name="filterProcessesUrl" value="/j_spring_security_check"/>
-        <property name="usernameParameter" value="j_username"/>
-        <property name="passwordParameter" value="j_password"/>
-    </bean>
-
-    <bean id="authController" class="com.antowka.stm.controllers.AuthController">
-        <property name="defaultTargetUrl" value="/websoc" />
-        <property name="targetUrlParameter" value="/websoc" />
-    </bean>
-
-    <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-        <property name="defaultFailureUrl" value="/websoc" />
-    </bean>
-
 </beans>
