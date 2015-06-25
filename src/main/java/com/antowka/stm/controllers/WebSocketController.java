@@ -13,6 +13,12 @@ import java.io.IOException;
 
 public class WebSocketController extends TextWebSocketHandler {
 
+    private MessageController messageController;
+
+    public void setMessageController(MessageController messageController) {
+        this.messageController = messageController;
+    }
+
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
 

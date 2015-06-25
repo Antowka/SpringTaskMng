@@ -6,24 +6,6 @@
           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 
-    <security:http use-expressions="true" auto-config="false" entry-point-ref="http403EntryPoint">
-        <security:intercept-url pattern="/logs/**" access="denyAll" />
-        <!-- ... All other intercept URL -->
-
-       <security:custom-filter ref="filterForAuth" position="FORM_LOGIN_FILTER"/>
-
-        <security:logout
-                invalidate-session="true"
-                logout-success-url="/LogoutSuccessful.htm"
-                />
-
-        <security:session-management>
-            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
-        </security:session-management>
-
-        <security:access-denied-handler error-page="/accessDenied.htm" />
-    </security:http>
-
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
             <security:user-service>
@@ -34,7 +16,7 @@
         </security:authentication-provider>
     </security:authentication-manager>
 
-    <bean id="filterForAuth" class="com.antowka.stm.common.FilterForAuth">
+    <bean id="authFilter" class="com.antowka.stm.common.AuthFilter">
         <property name="authenticationManager" ref="authenticationManager" />
         <property name="authenticationSuccessHandler" ref="authController"/>
         <property name="authenticationFailureHandler" ref="failureHandler"/>
@@ -44,14 +26,12 @@
     </bean>
 
     <bean id="authController" class="com.antowka.stm.controllers.AuthController">
-        <property name="defaultTargetUrl" value="/login.htm" />
-        <property name="targetUrlParameter" value="/LoginSuccessful.htm" />
+        <property name="defaultTargetUrl" value="/websoc" />
+        <property name="targetUrlParameter" value="/websoc" />
     </bean>
 
     <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-        <property name="defaultFailureUrl" value="/login.htm" />
+        <property name="defaultFailureUrl" value="/websoc" />
     </bean>
-
-    <bean id="http403EntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 
 </beans>

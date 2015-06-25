@@ -13,7 +13,7 @@ import java.io.BufferedReader;
  * Created by Anton Nikanorov on 5/13/15.
  * email: 662307@gmail.com
  */
-public class FilterForAuth extends UsernamePasswordAuthenticationFilter {
+public class AuthFilter extends UsernamePasswordAuthenticationFilter {
 
     private String jsonUsername;
     private String jsonPassword;
@@ -32,7 +32,7 @@ public class FilterForAuth extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    protected String obtainUsername(HttpServletRequest request){
+    protected String obtainUsername(HttpServletRequest request) {
         String username = null;
 
         if ("application/json".equals(request.getHeader("Content-Type"))) {
