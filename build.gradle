@@ -29,11 +29,11 @@ bootRepackage {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-websocket:1.2.4.RELEASE")
     compile("org.springframework:spring-messaging")
     compile ("org.springframework.security:spring-security-web:4.0.1.RELEASE")
     compile ("org.springframework.security:spring-security-config:4.0.1.RELEASE")
     providedCompile("org.apache.tomcat.embed:tomcat-embed-websocket")
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:1.2.4.RELEASE")
     compile ("jstl:jstl:1.2")
 }

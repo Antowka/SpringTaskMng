@@ -6,10 +6,6 @@
 
        <websocket:handlers>
               <websocket:mapping path="/websoc" handler="webSocketController"/>
-
-              <websocket:handshake-interceptors>
-                     <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-              </websocket:handshake-interceptors>
        </websocket:handlers>
 
 </beans>

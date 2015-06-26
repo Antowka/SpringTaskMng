@@ -5,6 +5,7 @@
 
        <bean id="authController" class="com.antowka.stm.controllers.AuthController">
               <property name="authenticationManager" ref="authenticationManager" />
+              <property name="webSocketController" ref="webSocketController" />
        </bean>
 
        <bean id="messageController" class="com.antowka.stm.controllers.MessageController">

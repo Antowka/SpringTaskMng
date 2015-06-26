@@ -7,25 +7,41 @@ package com.antowka.stm.controllers;
 
 import com.antowka.stm.models.MessageModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 
 public class WebSocketController extends TextWebSocketHandler {
 
     private MessageController messageController;
-    private List<WebSocketSession> connections;
+    private final static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
+    private final static Map<String, Authentication> principals = Collections.synchronizedMap(new HashMap<String, Authentication>());
+
 
     public void setMessageController(MessageController messageController) {
         this.messageController = messageController;
+    }
+
+    public void setPrincipals(String sessionId, Authentication authentication){
+
+        if(!principals.containsKey(sessionId)) {
+            principals.put(sessionId, authentication);
+        }
+    }
+
+    public Authentication getPrincipals(String sessionId){
+
+        if(principals.containsKey(sessionId)) {
+            return principals.get(sessionId);
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -36,7 +52,8 @@ public class WebSocketController extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        connections.add(session);
+        super.afterConnectionEstablished(session);
+        sessions.add(session);
     }
 
     /**
@@ -48,7 +65,13 @@ public class WebSocketController extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        connections.remove(session);
+        super.afterConnectionClosed(session, status);
+        sessions.remove(session);
+
+        //remove principal from collection
+        if(principals.containsKey(session.getId())) {
+            principals.remove(session.getId());
+        }
     }
 
     /**
@@ -61,6 +84,8 @@ public class WebSocketController extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession session, TextMessage messageJson) {
 
         try {
+
+            Set<WebSocketSession> test = sessions;
 
             ObjectMapper mapper = new ObjectMapper();
 
