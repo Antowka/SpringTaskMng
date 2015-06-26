@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class AuthController extends SimpleUrlAuthenticationSuccessHandler {
         this.authenticationManager = authenticationManager;
     }
 
-    public void auth(String username, String password) {
+    public void auth(String username, String password, WebSocketSession session) {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 
@@ -42,7 +43,7 @@ public class AuthController extends SimpleUrlAuthenticationSuccessHandler {
         } catch (AuthenticationException e) {
 
         } finally {
-            SecurityContextHolder.clearContext();
+            //SecurityContextHolder.clearContext();
         }
     }
 
