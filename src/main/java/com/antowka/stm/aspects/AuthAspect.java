@@ -1,42 +1,68 @@
-package com.antowka.stm.controllers;
+package com.antowka.stm.aspects;
 
+import com.antowka.stm.controllers.MainController;
+import com.antowka.stm.controllers.WebSocketController;
+import com.antowka.stm.models.MessageModel;
+import org.aspectj.lang.JoinPoint;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-
 import java.io.IOException;
 
-
-
 /**
- * Created by Anton Nikanorov on 6/24/15.
+ * Created by Anton Nikanorov on 6/28/15.
  * email: 662307@gmail.com
  */
-public class AuthController extends SimpleUrlAuthenticationSuccessHandler {
+public class AuthAspect {
 
 
     private AuthenticationManager authenticationManager;
     private WebSocketController webSocketController;
 
+    /**
+     *
+     * *************************** Setters and Getters *******************************
+     *
+     */
+
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
 
     public void setWebSocketController(WebSocketController webSocketController) {
         this.webSocketController = webSocketController;
     }
 
+    /**
+     *
+     * *************************** Functionality methods ******************************
+     *
+     */
 
+    public void authOrVerify(JoinPoint joinPoint){
+        Object args[] = joinPoint.getArgs();
+        MessageModel message = (MessageModel) args[0];
+        WebSocketSession session = (WebSocketSession) args[1];
 
-    public void auth(String username, String password, WebSocketSession session) {
+        if(message.getMethod().equals("signin")) {
+            this.authPrincipal(message, session);
+        }else{
+            this.recreateSecurityContext();
+        }
+    }
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+    private void authPrincipal(MessageModel message, WebSocketSession session){
+
+        String login = message.getParams().get("login");
+        String password = message.getParams().get("password");
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login, password);
 
         try {
 
@@ -60,5 +86,13 @@ public class AuthController extends SimpleUrlAuthenticationSuccessHandler {
         } finally {
             SecurityContextHolder.clearContext();
         }
+
     }
+
+
+    private void recreateSecurityContext(){
+
+        //todo - recreate security context
+    }
+
 }

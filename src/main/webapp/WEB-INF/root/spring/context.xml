@@ -3,17 +3,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-       <bean id="authController" class="com.antowka.stm.controllers.AuthController">
-              <property name="authenticationManager" ref="authenticationManager" />
-              <property name="webSocketController" ref="webSocketController" />
-       </bean>
-
-       <bean id="messageController" class="com.antowka.stm.controllers.MessageController">
-              <property name="authFilter" ref="authController" />
-       </bean>
+       <bean id="mainController" class="com.antowka.stm.controllers.MainController" />
 
        <bean id="webSocketController" class="com.antowka.stm.controllers.WebSocketController">
-              <property name="messageController" ref="messageController" />
+              <property name="mainController" ref="mainController" />
        </bean>
 
 </beans>

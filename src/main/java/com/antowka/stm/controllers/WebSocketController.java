@@ -19,15 +19,22 @@ import java.util.*;
 
 public class WebSocketController extends TextWebSocketHandler {
 
-    private MessageController messageController;
+    private MainController mainController;
     private final static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
     private final static Map<String, Authentication> principals = Collections.synchronizedMap(new HashMap<String, Authentication>());
 
-
-    public void setMessageController(MessageController messageController) {
-        this.messageController = messageController;
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
+
+
+    /**
+     * For set up principal to WebSocket connection (For Auth)
+     *
+     * @param sessionId
+     * @param authentication
+     */
     public void setPrincipals(String sessionId, Authentication authentication){
 
         if(!principals.containsKey(sessionId)) {
@@ -35,6 +42,12 @@ public class WebSocketController extends TextWebSocketHandler {
         }
     }
 
+    /**
+     * For get principal from WebSocket connection (Use in AuthController)
+     *
+     * @param sessionId
+     * @return
+     */
     public Authentication getPrincipals(String sessionId){
 
         if(principals.containsKey(sessionId)) {
@@ -85,13 +98,9 @@ public class WebSocketController extends TextWebSocketHandler {
 
         try {
 
-            Set<WebSocketSession> test = sessions;
-
             ObjectMapper mapper = new ObjectMapper();
-
             MessageModel message = mapper.readValue(messageJson.getPayload(), MessageModel.class);
-
-            this.messageController.getTypeMessage(session, message);
+            this.mainController.router(message, session);
 
         } catch (IOException e) {
             e.printStackTrace();
