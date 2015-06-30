@@ -88,7 +88,7 @@ public class WebSocketController extends TextWebSocketHandler {
 
             ObjectMapper mapper = new ObjectMapper();
             MessageModel message = mapper.readValue(messageJson.getPayload(), MessageModel.class);
-            this.mainController.router(message, session);
+            this.mainController.resolver(message, session);
 
         } catch (IOException e) {
             e.printStackTrace();

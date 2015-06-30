@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Anton Nikanorov on 6/30/15.
@@ -20,7 +21,9 @@ public class ConnectionModel {
      * @param session
      */
     public void addConnection(Authentication authUserData, WebSocketSession session) {
-
+        if(!connections.containsKey(authUserData)) {
+            connections.put(authUserData, session);
+        }
     }
 
 
@@ -32,7 +35,13 @@ public class ConnectionModel {
      */
     public WebSocketSession getConnection(Authentication authUserData){
 
-        return null;
+        if(connections.containsKey(authUserData)){
+
+            return connections.get(authUserData);
+        }else {
+
+            return null;
+        }
     }
 
     /**
@@ -43,7 +52,7 @@ public class ConnectionModel {
      */
     public Authentication getAuthentication(WebSocketSession session) {
 
-        return null;
+        return this.getAuthBySession(session);
     }
 
 
@@ -61,16 +70,49 @@ public class ConnectionModel {
      */
     public void removeConnection(WebSocketSession session){
 
+        Authentication auth = this.getAuthBySession(session);
+
+        if(connections.containsKey(auth)) {
+            connections.remove(auth);
+        }
     }
 
 
     /**
      * Remove connection from collection by Authentication
      *
-     * @param authUserData
+     * @param auth
      */
-    public void removeConnection(Authentication authUserData){
+    public void removeConnection(Authentication auth){
 
+        if(connections.containsKey(auth)) {
+            connections.remove(auth);
+        }
+    }
+
+
+    /**
+     *
+     * ***************************** Private methods *********************************
+     *
+     */
+
+
+    /**
+     * Get key by value in Java Map
+     *
+     * @param session
+     * @return
+     */
+    private Authentication getAuthBySession(WebSocketSession session){
+
+        Set <Authentication>map = connections.entrySet()
+                .stream()
+                .filter(entry -> Objects.equals(entry.getValue(), session))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+
+        return map.iterator().next();
     }
 
 }

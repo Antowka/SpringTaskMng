@@ -13,7 +13,7 @@
               <aop:aspect id="authOrVerifyPrincipal" ref="authAspect">
                      
                      <!-- Before -->
-                     <aop:pointcut id="pointCutBefore" expression="execution(* com.antowka.stm.controllers.MainController.router(..))" />
+                     <aop:pointcut id="pointCutBefore" expression="execution(* com.antowka.stm.controllers.MainController.resolver(..))" />
                      <aop:before method="authOrVerify" pointcut-ref="pointCutBefore" />
               </aop:aspect>
        </aop:config>

@@ -3,12 +3,17 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-       <bean id="mainController" class="com.antowka.stm.controllers.MainController" />
+
        <bean id="connectionModel" class="com.antowka.stm.models.ConnectionModel" />
+
+       <bean id="mainController" class="com.antowka.stm.controllers.MainController">
+              <property name="connection" ref="connectionModel" />
+       </bean>
 
        <bean id="webSocketController" class="com.antowka.stm.controllers.WebSocketController">
               <property name="mainController" ref="mainController" />
               <property name="connections" ref="connectionModel" />
        </bean>
+
 
 </beans>
