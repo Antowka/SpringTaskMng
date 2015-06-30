@@ -5,57 +5,46 @@ package com.antowka.stm.controllers;
  * email: 662307@gmail.com
  */
 
+import com.antowka.stm.models.ConnectionModel;
 import com.antowka.stm.models.MessageModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.util.*;
 
 
 public class WebSocketController extends TextWebSocketHandler {
 
     private MainController mainController;
-    private final static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
-    private final static Map<String, Authentication> principals = Collections.synchronizedMap(new HashMap<String, Authentication>());
+    private ConnectionModel connections;
+
+
+    /**
+     *
+     ***************************** Getters and Setters *************************************
+     *
+     */
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
+    public void setConnections(ConnectionModel connections) {
+        this.connections = connections;
+    }
+
 
 
     /**
-     * For set up principal to WebSocket connection (For Auth)
      *
-     * @param sessionId
-     * @param authentication
-     */
-    public void setPrincipals(String sessionId, Authentication authentication){
-
-        if(!principals.containsKey(sessionId)) {
-            principals.put(sessionId, authentication);
-        }
-    }
-
-    /**
-     * For get principal from WebSocket connection (Use in AuthController)
+     ***************************** Functionality methods *************************************
      *
-     * @param sessionId
-     * @return
      */
-    public Authentication getPrincipals(String sessionId){
 
-        if(principals.containsKey(sessionId)) {
-            return principals.get(sessionId);
-        }else{
-            return null;
-        }
-    }
 
     /**
      * Event on open new socket
@@ -66,7 +55,6 @@ public class WebSocketController extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
-        sessions.add(session);
     }
 
     /**
@@ -79,12 +67,12 @@ public class WebSocketController extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
-        sessions.remove(session);
 
-        //remove principal from collection
-        if(principals.containsKey(session.getId())) {
-            principals.remove(session.getId());
-        }
+        //clean security context
+        SecurityContextHolder.clearContext();
+
+        //remove connection from collection
+        this.connections.removeConnection(session);
     }
 
     /**

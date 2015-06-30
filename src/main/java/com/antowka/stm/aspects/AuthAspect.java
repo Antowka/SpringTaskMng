@@ -1,7 +1,6 @@
 package com.antowka.stm.aspects;
 
-import com.antowka.stm.controllers.MainController;
-import com.antowka.stm.controllers.WebSocketController;
+import com.antowka.stm.models.ConnectionModel;
 import com.antowka.stm.models.MessageModel;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +21,7 @@ public class AuthAspect {
 
 
     private AuthenticationManager authenticationManager;
-    private WebSocketController webSocketController;
+    private ConnectionModel connections;
 
     /**
      *
@@ -34,9 +33,8 @@ public class AuthAspect {
         this.authenticationManager = authenticationManager;
     }
 
-
-    public void setWebSocketController(WebSocketController webSocketController) {
-        this.webSocketController = webSocketController;
+    public void setConnections(ConnectionModel connections) {
+        this.connections = connections;
     }
 
     /**
@@ -53,10 +51,16 @@ public class AuthAspect {
         if(message.getMethod().equals("signin")) {
             this.authPrincipal(message, session);
         }else{
-            this.recreateSecurityContext();
+            this.recreateSecurityContext(session);
         }
     }
 
+    /**
+     * Auth and create security context
+     *
+     * @param message
+     * @param session
+     */
     private void authPrincipal(MessageModel message, WebSocketSession session){
 
         String login = message.getParams().get("login");
@@ -67,9 +71,11 @@ public class AuthAspect {
         try {
 
             //Auth successful
-            Authentication result = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(result);
-            webSocketController.setPrincipals(session.getId(), result);
+            Authentication auth = authenticationManager.authenticate(token);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            //Added connection to collections
+            this.connections.addConnection(auth, session);
 
         } catch (AuthenticationException e) {
 
@@ -83,16 +89,18 @@ public class AuthAspect {
                 e1.printStackTrace();
             }
 
-        } finally {
-            SecurityContextHolder.clearContext();
         }
 
     }
 
+    /**
+     * Recreate security context from websocket-connections
+     *
+     * @param session
+     */
+    private void recreateSecurityContext(WebSocketSession session){
 
-    private void recreateSecurityContext(){
-
-        //todo - recreate security context
+        Authentication auth = this.connections.getAuthentication(session);
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
-
 }
