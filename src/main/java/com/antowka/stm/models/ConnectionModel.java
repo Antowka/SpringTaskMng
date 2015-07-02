@@ -21,6 +21,7 @@ public class ConnectionModel {
      * @param session
      */
     public void addConnection(Authentication authUserData, WebSocketSession session) {
+
         if(!connections.containsKey(authUserData)) {
             connections.put(authUserData, session);
         }

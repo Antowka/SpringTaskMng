@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -48,7 +49,7 @@ public class AuthAspect {
         MessageModel message = (MessageModel) args[0];
         WebSocketSession session = (WebSocketSession) args[1];
 
-        if(message.getMethod().equals("signin")) {
+        if(message.getMethod().equals("signIn")) {
             this.authPrincipal(message, session);
         }else{
             this.recreateSecurityContext(session);

@@ -1,5 +1,11 @@
 package com.antowka.stm.models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,4 +55,25 @@ public class MessageModel {
      * ****************************** Functionality Methods ********************************
      *
      */
+
+    /**
+     * Send message to web-socket
+     *
+     * @param session
+     * @param message
+     */
+    public void sendMessage(WebSocketSession session, MessageModel message) throws JsonProcessingException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonStringMessage = mapper.writeValueAsString(message);
+        TextMessage msg = new TextMessage(jsonStringMessage);
+
+        try {
+
+            session.sendMessage(msg);
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
 }
