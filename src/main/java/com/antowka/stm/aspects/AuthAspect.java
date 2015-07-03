@@ -1,13 +1,12 @@
 package com.antowka.stm.aspects;
 
-import com.antowka.stm.models.ConnectionModel;
+import com.antowka.stm.services.WsConnections;
 import com.antowka.stm.models.MessageModel;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,7 +21,7 @@ public class AuthAspect {
 
 
     private AuthenticationManager authenticationManager;
-    private ConnectionModel connections;
+    private WsConnections wsConnections;
 
     /**
      *
@@ -34,8 +33,8 @@ public class AuthAspect {
         this.authenticationManager = authenticationManager;
     }
 
-    public void setConnections(ConnectionModel connections) {
-        this.connections = connections;
+    public void setWsConnections(WsConnections wsConnections) {
+        this.wsConnections = wsConnections;
     }
 
     /**
@@ -75,8 +74,8 @@ public class AuthAspect {
             Authentication auth = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            //Added connection to collections
-            this.connections.addConnection(auth, session);
+            //Added wsConnections to collections
+            this.wsConnections.addConnection(auth, session);
 
         } catch (AuthenticationException e) {
 
@@ -95,13 +94,13 @@ public class AuthAspect {
     }
 
     /**
-     * Recreate security context from websocket-connections
+     * Recreate security context from websocket-wsConnections
      *
      * @param session
      */
     private void recreateSecurityContext(WebSocketSession session){
 
-        Authentication auth = this.connections.getAuthentication(session);
+        Authentication auth = this.wsConnections.getAuthentication(session);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 }

@@ -1,4 +1,4 @@
-package com.antowka.stm.controllers;
+package com.antowka.stm.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

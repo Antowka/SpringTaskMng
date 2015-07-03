@@ -1,11 +1,12 @@
-package com.antowka.stm.controllers;
+package com.antowka.stm.common;
 
 /**
  * Created by Anton Nikanorov on 4/22/15.
  * email: 662307@gmail.com
  */
 
-import com.antowka.stm.models.ConnectionModel;
+import com.antowka.stm.controllers.MainController;
+import com.antowka.stm.services.WsConnections;
 import com.antowka.stm.models.MessageModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class WebSocketController extends TextWebSocketHandler {
 
     private MainController mainController;
-    private ConnectionModel connections;
+    private WsConnections wsConnections;
 
 
     /**
@@ -33,8 +34,8 @@ public class WebSocketController extends TextWebSocketHandler {
         this.mainController = mainController;
     }
 
-    public void setConnections(ConnectionModel connections) {
-        this.connections = connections;
+    public void setWsConnections(WsConnections wsConnections) {
+        this.wsConnections = wsConnections;
     }
 
 
@@ -71,8 +72,8 @@ public class WebSocketController extends TextWebSocketHandler {
         //clean security context
         SecurityContextHolder.clearContext();
 
-        //remove connection from collection
-        this.connections.removeConnection(session);
+        //remove wsConnections from collection
+        this.wsConnections.removeConnection(session);
     }
 
     /**
@@ -86,8 +87,11 @@ public class WebSocketController extends TextWebSocketHandler {
 
         try {
 
+
             ObjectMapper mapper = new ObjectMapper();
             MessageModel message = mapper.readValue(messageJson.getPayload(), MessageModel.class);
+
+
             this.mainController.resolver(message, session);
 
         } catch (IOException e) {

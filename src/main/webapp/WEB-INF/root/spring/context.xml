@@ -4,16 +4,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-       <bean id="connectionModel" class="com.antowka.stm.models.ConnectionModel" />
+       <bean id="connectionModel" class="com.antowka.stm.services.WsConnections" />
+
+       <bean id="webSocketController" class="com.antowka.stm.common.WebSocketController">
+              <property name="mainController" ref="mainController" />
+              <property name="wsConnections" ref="connectionModel" />
+       </bean>
+
+       <!-- Only business logic -->
 
        <bean id="mainController" class="com.antowka.stm.controllers.MainController">
-              <property name="connection" ref="connectionModel" />
+              <property name="wsConnections" ref="connectionModel" />
        </bean>
 
-       <bean id="webSocketController" class="com.antowka.stm.controllers.WebSocketController">
-              <property name="mainController" ref="mainController" />
-              <property name="connections" ref="connectionModel" />
-       </bean>
-
+       <bean id="userController" parent="mainController" class="com.antowka.stm.controllers.UserController"/>
 
 </beans>

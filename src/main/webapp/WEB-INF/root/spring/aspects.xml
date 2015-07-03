@@ -6,7 +6,7 @@
        <!-- Auth and Verification Security context -->
        <bean id="authAspect" class="com.antowka.stm.aspects.AuthAspect" >
               <property name="authenticationManager" ref="authenticationManager" />
-              <property name="connections" ref="connectionModel" />
+              <property name="wsConnections" ref="connectionModel" />
        </bean>
 
        <aop:config>

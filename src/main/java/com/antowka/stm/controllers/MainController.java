@@ -1,8 +1,7 @@
 package com.antowka.stm.controllers;
-import com.antowka.stm.models.ConnectionModel;
+import com.antowka.stm.services.WsConnections;
 import com.antowka.stm.models.MessageModel;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.lang.reflect.Method;
 public class MainController {
 
     private WebSocketSession session;
-    private ConnectionModel connection;
+    private WsConnections wsConnections;
     private MessageModel message;
 
 
@@ -27,8 +26,8 @@ public class MainController {
      *
      */
 
-    public void setConnection(ConnectionModel connection) {
-        this.connection = connection;
+    public void setWsConnections(WsConnections wsConnections) {
+        this.wsConnections = wsConnections;
     }
 
 

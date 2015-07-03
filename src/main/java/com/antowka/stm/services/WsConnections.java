@@ -1,4 +1,4 @@
-package com.antowka.stm.models;
+package com.antowka.stm.services;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.socket.WebSocketSession;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * Created by Anton Nikanorov on 6/30/15.
  * email: 662307@gmail.com
  */
-public class ConnectionModel {
+public class WsConnections {
 
     private final static Map<Authentication, WebSocketSession> connections = Collections.synchronizedMap(new HashMap<Authentication, WebSocketSession>());
 
