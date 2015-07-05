@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+       <!-- Transport -->
        <bean id="connectionModel" class="com.antowka.stm.services.WsConnections" />
 
        <bean id="webSocketController" class="com.antowka.stm.common.WebSocketController">
@@ -11,12 +11,16 @@
               <property name="wsConnections" ref="connectionModel" />
        </bean>
 
-       <!-- Only business logic -->
 
+       <!-- Only business logic -->
        <bean id="mainController" class="com.antowka.stm.controllers.MainController">
               <property name="wsConnections" ref="connectionModel" />
+              <property name="controllers">
+                     <map>
+                          <entry key="user" value-ref="userController" />
+                          <entry key="task" value-ref="taskController" />
+                     </map>
+              </property>
        </bean>
-
-       <bean id="userController" parent="mainController" class="com.antowka.stm.controllers.UserController"/>
 
 </beans>

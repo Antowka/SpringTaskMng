@@ -1,4 +1,4 @@
-package com.antowka.stm.models;
+package com.antowka.stm.entity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,16 +7,16 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Anton Nikanorov on 6/26/15.
  * email: 662307@gmail.com
  */
-public class MessageModel {
+public class MessageEntity {
 
-    private String method;
     private String id;
+    private String type;
+    private String action;
     private HashMap<String, String> params;
 
     /**
@@ -25,12 +25,20 @@ public class MessageModel {
      *
      */
 
-    public String getMethod() {
-        return method;
+    public String getType() {
+        return type;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String method) {
+        this.action = method;
     }
 
     public String getId() {
@@ -62,7 +70,7 @@ public class MessageModel {
      * @param session
      * @param message
      */
-    public void sendMessage(WebSocketSession session, MessageModel message) throws JsonProcessingException {
+    public void sendMessage(WebSocketSession session, MessageEntity message) throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonStringMessage = mapper.writeValueAsString(message);

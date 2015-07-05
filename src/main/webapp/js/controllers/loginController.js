@@ -12,8 +12,9 @@ angular.module('loginController', []).controller('loginController', function($sc
         var password = $scope.signin.password;
 
         var rpcLogin = {
-            "method": "signIn",
             "id": Math.round(Math.random() * 10e12),
+            "type": "user",
+            "action": "get",
             "params": {
                 "login": login,
                 "password": password,

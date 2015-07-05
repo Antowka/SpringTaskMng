@@ -1,11 +1,11 @@
 package com.antowka.stm.controllers;
 import com.antowka.stm.services.WsConnections;
-import com.antowka.stm.models.MessageModel;
+import com.antowka.stm.entity.MessageEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 
 /**
@@ -16,8 +16,8 @@ public class MainController {
 
     private WebSocketSession session;
     private WsConnections wsConnections;
-    private MessageModel message;
-
+    private MessageEntity message;
+    private Map<String, Controller> controllers;
 
 
     /**
@@ -30,8 +30,9 @@ public class MainController {
         this.wsConnections = wsConnections;
     }
 
-
-
+    public void setControllers(Map<String, Controller> controllers) {
+        this.controllers = controllers;
+    }
 
 
     /**
@@ -39,30 +40,13 @@ public class MainController {
      * *************************** Functionality methods ******************************
      *
      */
-    public void resolver(MessageModel message, WebSocketSession session){
+    public void resolver(MessageEntity message, WebSocketSession session){
 
         this.session = session;
         this.message = message;
-        Method method = ReflectionUtils.findMethod(getClass(), this.message.getMethod());
-        ReflectionUtils.invokeMethod(method, this);
-    }
 
-
-    /**
-     * SignUp new user
-     */
-    public void signUp() {
-        String test = "signUp";
-    }
-
-    /**
-     * Auth Method response status
-     *
-     * @throws IOException
-     */
-    public void signIn() throws IOException {
-
-        //todo - check on successful auth
-        this.message.sendMessage(this.session, this.message);
+        Controller currentController = this.controllers.get(this.message.getType());
+        Method method = ReflectionUtils.findMethod(currentController.getClass(), this.message.getAction(), MessageEntity.class);
+        ReflectionUtils.invokeMethod(method, currentController, message);
     }
 }

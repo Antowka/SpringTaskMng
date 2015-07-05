@@ -1,7 +1,7 @@
 package com.antowka.stm.aspects;
 
 import com.antowka.stm.services.WsConnections;
-import com.antowka.stm.models.MessageModel;
+import com.antowka.stm.entity.MessageEntity;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,10 +45,10 @@ public class AuthAspect {
 
     public void authOrVerify(JoinPoint joinPoint){
         Object args[] = joinPoint.getArgs();
-        MessageModel message = (MessageModel) args[0];
+        MessageEntity message = (MessageEntity) args[0];
         WebSocketSession session = (WebSocketSession) args[1];
 
-        if(message.getMethod().equals("signIn")) {
+        if(message.getAction().equals("get")) {
             this.authPrincipal(message, session);
         }else{
             this.recreateSecurityContext(session);
@@ -61,7 +61,7 @@ public class AuthAspect {
      * @param message
      * @param session
      */
-    private void authPrincipal(MessageModel message, WebSocketSession session){
+    private void authPrincipal(MessageEntity message, WebSocketSession session){
 
         String login = message.getParams().get("login");
         String password = message.getParams().get("password");

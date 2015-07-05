@@ -1,16 +1,18 @@
 package com.antowka.stm.controllers;
 
+import com.antowka.stm.entity.MessageEntity;
+
 /**
  * Created by Anton Nikanorov on 7/4/15.
  * email: 662307@gmail.com
  */
 public interface Controller{
 
-    void add();
+    void add(MessageEntity message);
 
-    void update();
+    void update(MessageEntity message);
 
-    Object get();
+    void get(MessageEntity message);
 
-    void delete();
+    void delete(MessageEntity message);
 }

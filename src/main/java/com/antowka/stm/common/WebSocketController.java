@@ -7,7 +7,7 @@ package com.antowka.stm.common;
 
 import com.antowka.stm.controllers.MainController;
 import com.antowka.stm.services.WsConnections;
-import com.antowka.stm.models.MessageModel;
+import com.antowka.stm.entity.MessageEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.socket.CloseStatus;
@@ -89,7 +89,7 @@ public class WebSocketController extends TextWebSocketHandler {
 
 
             ObjectMapper mapper = new ObjectMapper();
-            MessageModel message = mapper.readValue(messageJson.getPayload(), MessageModel.class);
+            MessageEntity message = mapper.readValue(messageJson.getPayload(), MessageEntity.class);
 
 
             this.mainController.resolver(message, session);
