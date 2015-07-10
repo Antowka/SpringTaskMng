@@ -8,28 +8,21 @@ import javax.persistence.*;
  */
 
 @Entity
+@Table(name="tasks")
 public class TaskEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue
     private long id;
 
-    private String name;
+    private String title;
 
     private String description;
 
     private Integer owner;
 
 
-
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    protected TaskEntity(){}
 
     public long getId() {
         return id;
@@ -39,12 +32,20 @@ public class TaskEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getOwner() {
@@ -54,7 +55,5 @@ public class TaskEntity {
     public void setOwner(Integer owner) {
         this.owner = owner;
     }
-
-    protected TaskEntity(){}
 
 }

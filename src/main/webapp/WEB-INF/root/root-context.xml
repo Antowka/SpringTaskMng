@@ -7,7 +7,5 @@
        <import resource="spring/security.xml" />
        <import resource="spring/websockets.xml" />
        <import resource="spring/aspects.xml" />
-       <import resource="spring/controllers.xml" />
-       <import resource="spring/entities.xml" />
        <import resource="spring/context.xml" />
 </beans>

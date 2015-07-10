@@ -12,6 +12,17 @@
        </bean>
 
 
+      <!-- Controllers -->
+      <bean id="userController" class="com.antowka.stm.controllers.UserController">
+          <property name="task" ref="task" />
+      </bean>
+      <bean id="taskController" class="com.antowka.stm.controllers.TaskController" />
+
+      <!-- Entities -->
+      <bean id="user" class="com.antowka.stm.entity.UserEntity" />
+      <bean id="task" class="com.antowka.stm.entity.TaskEntity" />
+
+
        <!-- Only business logic -->
        <bean id="mainController" class="com.antowka.stm.controllers.MainController">
               <property name="wsConnections" ref="connectionModel" />
