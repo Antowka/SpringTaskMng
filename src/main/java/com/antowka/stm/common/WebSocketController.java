@@ -7,7 +7,7 @@ package com.antowka.stm.common;
 
 import com.antowka.stm.controllers.MainController;
 import com.antowka.stm.services.WsConnections;
-import com.antowka.stm.entity.MessageEntity;
+import com.antowka.stm.models.MessageEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.socket.CloseStatus;

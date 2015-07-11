@@ -1,6 +1,6 @@
 package com.antowka.stm.controllers;
 import com.antowka.stm.services.WsConnections;
-import com.antowka.stm.entity.MessageEntity;
+import com.antowka.stm.models.MessageEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.socket.WebSocketSession;
 

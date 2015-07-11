@@ -1,4 +1,4 @@
-package com.antowka.stm.entity;
+package com.antowka.stm.models;
 
 /**
  * Created by Anton Nikanorov on 7/5/15.

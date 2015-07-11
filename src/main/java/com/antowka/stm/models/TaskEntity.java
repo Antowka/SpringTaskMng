@@ -1,4 +1,4 @@
-package com.antowka.stm.entity;
+package com.antowka.stm.models;
 
 import javax.persistence.*;
 
@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class TaskEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String title;
@@ -21,8 +21,13 @@ public class TaskEntity {
 
     private Integer owner;
 
-
     protected TaskEntity(){}
+
+    public TaskEntity(String title, String description, Integer owner){
+        this.title = title;
+        this.description = description;
+        this.owner = owner;
+    }
 
     public long getId() {
         return id;

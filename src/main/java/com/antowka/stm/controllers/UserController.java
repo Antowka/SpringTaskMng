@@ -1,8 +1,8 @@
 package com.antowka.stm.controllers;
 
-import com.antowka.stm.entity.MessageEntity;
-import com.antowka.stm.entity.TaskEntity;
-import com.antowka.stm.repositories.TaskRepository;
+import com.antowka.stm.dao.TaskDao;
+import com.antowka.stm.models.MessageEntity;
+import com.antowka.stm.models.TaskEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -13,14 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserController implements Controller {
 
     @Autowired
-    private TaskRepository taskRepository;
-
-    private TaskEntity task;
-
-    public void setTask(TaskEntity task) {
-        this.task = task;
-    }
-
+    private TaskDao taskDao;
 
     @Override
     public void add(MessageEntity message) {
@@ -35,9 +28,13 @@ public class UserController implements Controller {
     @Override
     public void get(MessageEntity message) {
 
-        String test = "fd";
 
-        //taskRepository.save();
+        String test = "fd";
+        TaskEntity task = new TaskEntity("Anton", "Test task", 1);
+
+        //todo - http://mycuteblog.com/hibernate4-spring4-maven-example/
+        taskDao.addTask(task);
+        String test2 = "fd";
     }
 
     @Override

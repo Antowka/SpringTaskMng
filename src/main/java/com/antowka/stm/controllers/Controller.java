@@ -1,6 +1,6 @@
 package com.antowka.stm.controllers;
 
-import com.antowka.stm.entity.MessageEntity;
+import com.antowka.stm.models.MessageEntity;
 
 /**
  * Created by Anton Nikanorov on 7/4/15.
