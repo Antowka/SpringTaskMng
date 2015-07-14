@@ -28,13 +28,11 @@ public class UserController implements Controller {
     @Override
     public void get(MessageEntity message) {
 
+        //TaskEntity task = new TaskEntity("Anton", "Test task", 1);
+        //taskDao.addTask(task);
 
-        String test = "fd";
-        TaskEntity task = new TaskEntity("Anton", "Test task", 1);
-
-        //todo - http://mycuteblog.com/hibernate4-spring4-maven-example/
-        taskDao.addTask(task);
-        String test2 = "fd";
+        TaskEntity task11 = taskDao.getTask(1);
+        String test = "0";
     }
 
     @Override

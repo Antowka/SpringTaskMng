@@ -4,9 +4,9 @@ import com.antowka.stm.dao.HibernateSessionFactory;
 import com.antowka.stm.dao.TaskDao;
 import com.antowka.stm.models.TaskEntity;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Anton Nikanorov on 7/11/15.
@@ -18,7 +18,9 @@ public class TaskDaoImpl implements TaskDao{
     @Autowired
     HibernateSessionFactory hibernateSessionFactory;
 
+
     @Override
+    @Transactional
     public boolean addTask(TaskEntity task) {
         Session session = hibernateSessionFactory.getSession();
         session.save(task);
@@ -26,6 +28,7 @@ public class TaskDaoImpl implements TaskDao{
     }
 
     @Override
+    @Transactional
     public boolean updateTask(TaskEntity task) {
         Session session = hibernateSessionFactory.getSession();
         session.update(task);
@@ -33,19 +36,23 @@ public class TaskDaoImpl implements TaskDao{
     }
 
     @Override
+    @Transactional
     public TaskEntity getTask(long taskId) {
 
         TaskEntity taskEntity = null;
+        try {
+            Session session = hibernateSessionFactory.getSession();
+            taskEntity = (TaskEntity) session.get(TaskEntity.class, taskId);
+        } catch (RuntimeException e){
+            String test ="0";
+        }
 
-        Session session = hibernateSessionFactory.getSession();
-        taskEntity = (TaskEntity) session.createCriteria(TaskEntity.class)
-                .add(Restrictions.eq("taskId", taskId))
-                .uniqueResult();
 
         return taskEntity;
     }
 
     @Override
+    @Transactional
     public boolean deleteTask(TaskEntity task) {
         Session session = hibernateSessionFactory.getSession();
         session.delete(task);

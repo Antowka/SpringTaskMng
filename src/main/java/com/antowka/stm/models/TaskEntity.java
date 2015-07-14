@@ -1,6 +1,7 @@
 package com.antowka.stm.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Anton Nikanorov on 7/5/15.
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="tasks")
-public class TaskEntity {
+public class TaskEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
