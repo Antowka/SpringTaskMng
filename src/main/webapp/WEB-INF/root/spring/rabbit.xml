@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+       <rabbit:connection-factory id="connectionFactory" />
+
+       <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="myExchange" routing-key="rabbitTmpl.bar"/>
+
+       <rabbit:admin connection-factory="connectionFactory" />
+
+       <rabbit:queue name="receiveQueue" />
+
+       <rabbit:topic-exchange name="myExchange">
+              <rabbit:bindings>
+                     <rabbit:binding queue="receiveQueue" pattern="rabbitTmpl.*" />
+                     <rabbit:binding queue="receiveQueue" pattern="rabbitTmpl.*" />
+              </rabbit:bindings>
+       </rabbit:topic-exchange>
+
+
+       <rabbit:listener-container connection-factory="connectionFactory">
+              <rabbit:listener ref="userController" method="listenRabbit" queue-names="receiveQueue" />
+              <rabbit:listener ref="taskController" method="listenRabbit" queue-names="receiveQueue" />
+       </rabbit:listener-container>
+
+       <bean id="userController" class="com.antowka.stm.controllers.UserController" />
+       <bean id="taskController" class="com.antowka.stm.controllers.TaskController" />
+
+</beans>

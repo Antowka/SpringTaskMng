@@ -7,6 +7,15 @@ import com.antowka.stm.models.MessageEntity;
  * email: 662307@gmail.com
  */
 public class TaskController implements Controller {
+
+    /**
+     * Listener message from RabbitMQ
+     * @param msg
+     */
+    public void listenRabbit(String msg) {
+        System.out.println(msg);
+    }
+
     @Override
     public void add(MessageEntity message) {
 

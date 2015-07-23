@@ -40,6 +40,7 @@ dependencies {
     compile ("org.hibernate:hibernate-core:4.3.10.Final")
     compile ("org.postgresql:postgresql:9.4-1201-jdbc41")
     compile ("org.apache.commons:commons-dbcp2:2.1")
+    compile ("org.springframework.amqp:spring-rabbit:1.4.5.RELEASE")
     compile ("jstl:jstl:1.2")
     providedCompile("org.apache.tomcat.embed:tomcat-embed-websocket")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:1.2.5.RELEASE")

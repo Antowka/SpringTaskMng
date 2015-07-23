@@ -8,6 +8,8 @@ import com.antowka.stm.models.MessageEntity;
  */
 public interface Controller{
 
+    void listenRabbit(String msg);
+
     void add(MessageEntity message);
 
     void update(MessageEntity message);

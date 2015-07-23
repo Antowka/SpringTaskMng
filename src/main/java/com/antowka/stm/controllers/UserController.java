@@ -15,6 +15,14 @@ public class UserController implements Controller {
     @Autowired
     private TaskDao taskDao;
 
+    /**
+     * Listener message from RabbitMQ
+     * @param msg
+     */
+    public void listenRabbit(String msg) {
+        System.out.println(msg);
+    }
+
     @Override
     public void add(MessageEntity message) {
 

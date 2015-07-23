@@ -1,6 +1,7 @@
 package com.antowka.stm.controllers;
 import com.antowka.stm.services.WsConnections;
 import com.antowka.stm.models.MessageEntity;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -14,9 +15,16 @@ import java.util.Map;
  */
 public class MainController {
 
+
+
     private WebSocketSession session;
+
     private WsConnections wsConnections;
+
     private MessageEntity message;
+
+    private RabbitTemplate rabbitTemplate;
+
     private Map<String, Controller> controllers;
 
 
@@ -32,6 +40,10 @@ public class MainController {
 
     public void setControllers(Map<String, Controller> controllers) {
         this.controllers = controllers;
+    }
+
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
 
