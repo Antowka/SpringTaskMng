@@ -20,7 +20,7 @@ public class UserController implements Controller {
      * @param msg
      */
     public void listenRabbit(String msg) {
-        System.out.println(msg);
+        System.out.println("User:" + msg);
     }
 
     @Override

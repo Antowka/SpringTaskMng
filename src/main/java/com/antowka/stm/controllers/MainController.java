@@ -54,11 +54,16 @@ public class MainController {
      */
     public void resolver(MessageEntity message, WebSocketSession session){
 
-        this.session = session;
-        this.message = message;
+        this.rabbitTemplate.convertAndSend("rabbitRoute.user", "Test rabbit! - USER");
+        this.rabbitTemplate.convertAndSend("rabbitRoute.task", "Test rabbit! - TASK");
 
-        Controller currentController = this.controllers.get(this.message.getType());
-        Method method = ReflectionUtils.findMethod(currentController.getClass(), this.message.getAction(), MessageEntity.class);
-        ReflectionUtils.invokeMethod(method, currentController, message);
+        /*
+                this.session = session;
+                this.message = message;
+
+                Controller currentController = this.controllers.get(this.message.getType());
+                Method method = ReflectionUtils.findMethod(currentController.getClass(), this.message.getAction(), MessageEntity.class);
+                ReflectionUtils.invokeMethod(method, currentController, message);
+        */
     }
 }

@@ -13,7 +13,7 @@ public class TaskController implements Controller {
      * @param msg
      */
     public void listenRabbit(String msg) {
-        System.out.println(msg);
+        System.out.println("Task" + msg);
     }
 
     @Override
