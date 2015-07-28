@@ -47,7 +47,6 @@ public class TaskDaoImpl implements TaskDao{
             String test ="0";
         }
 
-
         return taskEntity;
     }
 

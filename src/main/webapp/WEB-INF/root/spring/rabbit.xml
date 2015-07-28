@@ -20,6 +20,12 @@
 <!-- Listeners -->
        <bean id="userController" class="com.antowka.stm.controllers.UserController" />
        <bean id="taskController" class="com.antowka.stm.controllers.TaskController" />
+       <bean id="projectController" class="com.antowka.stm.controllers.ProjectController" />
+
+       <!-- Listeners -->
+       <rabbit:listener-container connection-factory="connectionFactory">
+              <rabbit:listener ref="mainController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.response" />
+       </rabbit:listener-container>
 
        <rabbit:listener-container connection-factory="connectionFactory">
               <rabbit:listener ref="userController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.user" />
@@ -27,6 +33,10 @@
 
        <rabbit:listener-container connection-factory="connectionFactory">
               <rabbit:listener ref="taskController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.task" />
+       </rabbit:listener-container>
+
+       <rabbit:listener-container connection-factory="connectionFactory">
+              <rabbit:listener ref="projectController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.project" />
        </rabbit:listener-container>
 <!-- End Listeners -->
 

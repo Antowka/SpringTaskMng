@@ -25,8 +25,6 @@ public class MainController {
 
     private RabbitTemplate rabbitTemplate;
 
-    private Map<String, Controller> controllers;
-
 
     /**
      *
@@ -36,10 +34,6 @@ public class MainController {
 
     public void setWsConnections(WsConnections wsConnections) {
         this.wsConnections = wsConnections;
-    }
-
-    public void setControllers(Map<String, Controller> controllers) {
-        this.controllers = controllers;
     }
 
     public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
@@ -52,18 +46,26 @@ public class MainController {
      * *************************** Functionality methods ******************************
      *
      */
+
+    /**
+     * This method added messages to RabbitMQ for other Controllers
+     *
+     * @param message
+     * @param session
+     */
     public void resolver(MessageEntity message, WebSocketSession session){
 
         this.rabbitTemplate.convertAndSend("rabbitRoute.user", "Test rabbit! - USER");
         this.rabbitTemplate.convertAndSend("rabbitRoute.task", "Test rabbit! - TASK");
+    }
 
-        /*
-                this.session = session;
-                this.message = message;
 
-                Controller currentController = this.controllers.get(this.message.getType());
-                Method method = ReflectionUtils.findMethod(currentController.getClass(), this.message.getAction(), MessageEntity.class);
-                ReflectionUtils.invokeMethod(method, currentController, message);
-        */
+    /**
+     * Listener message from RabbitMQ
+     *
+     * @param msg
+     */
+    public void listenRabbit(String msg) {
+        System.out.println("Task" + msg);
     }
 }
