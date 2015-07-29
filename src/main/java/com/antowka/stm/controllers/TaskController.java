@@ -10,10 +10,10 @@ public class TaskController implements Controller {
 
     /**
      * Listener message from RabbitMQ
-     * @param msg
+     * @param message
      */
-    public void listenRabbit(String msg) {
-        System.out.println("Task" + msg);
+    public void listenRabbit(Object message) {
+        System.out.println(message);
     }
 
     @Override

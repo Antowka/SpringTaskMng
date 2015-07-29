@@ -77,7 +77,7 @@ public class WebSocketController extends TextWebSocketHandler {
     }
 
     /**
-     * Приходящие сообщения
+     * Handler for receive messages from client side
      *
      * @param session
      * @param messageJson
@@ -86,11 +86,8 @@ public class WebSocketController extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession session, TextMessage messageJson) {
 
         try {
-
-
             ObjectMapper mapper = new ObjectMapper();
             MessageEntity message = mapper.readValue(messageJson.getPayload(), MessageEntity.class);
-
 
             this.mainController.resolver(message, session);
 

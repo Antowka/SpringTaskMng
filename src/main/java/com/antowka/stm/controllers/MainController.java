@@ -1,7 +1,10 @@
 package com.antowka.stm.controllers;
 import com.antowka.stm.services.WsConnections;
 import com.antowka.stm.models.MessageEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -48,24 +51,34 @@ public class MainController {
      */
 
     /**
-     * This method added messages to RabbitMQ for other Controllers
+     * This method added messages to RabbitMQ for other Controllers for authorized users
      *
      * @param message
      * @param session
      */
-    public void resolver(MessageEntity message, WebSocketSession session){
+     public void resolver(MessageEntity message, WebSocketSession session) throws JsonProcessingException {
 
-        this.rabbitTemplate.convertAndSend("rabbitRoute.user", "Test rabbit! - USER");
-        this.rabbitTemplate.convertAndSend("rabbitRoute.task", "Test rabbit! - TASK");
+         //For authorized users
+         if(SecurityContextHolder.getContext().getAuthentication() != null &&
+                                             SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+
+             this.rabbitTemplate.setRoutingKey("rabbitRoute."+message.getType());
+             this.rabbitTemplate.convertAndSend(message.toJson());
+         }else{
+
+            //For not authorized users
+             this.rabbitTemplate.convertAndSend("rabbitRoute.project", "Test rabbit! - USER");
+             this.rabbitTemplate.convertAndSend("rabbitRoute.task", "Test rabbit! - TASK");
+         }
     }
 
 
     /**
      * Listener message from RabbitMQ
      *
-     * @param msg
+     * @param message
      */
-    public void listenRabbit(String msg) {
-        System.out.println("Task" + msg);
+    public void listenRabbit(Object message) {
+        System.out.println(message);
     }
 }

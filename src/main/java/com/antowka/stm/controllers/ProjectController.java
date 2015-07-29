@@ -8,8 +8,8 @@ import com.antowka.stm.models.MessageEntity;
 public class ProjectController implements Controller {
 
     @Override
-    public void listenRabbit(String msg) {
-
+    public void listenRabbit(Object message) {
+        System.out.println(message);
     }
 
     @Override

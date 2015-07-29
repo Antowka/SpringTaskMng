@@ -23,12 +23,6 @@
        <bean id="mainController" class="com.antowka.stm.controllers.MainController">
               <property name="wsConnections" ref="connectionModel" />
               <property name="rabbitTemplate" ref="amqpTemplate" />
-              <property name="controllers">
-                     <map>
-                          <entry key="user" value-ref="userController" />
-                          <entry key="task" value-ref="taskController" />
-                     </map>
-              </property>
        </bean>
 
 </beans>

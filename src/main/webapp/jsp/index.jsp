@@ -19,8 +19,8 @@
 
     <div class="container" ng-controller="loginController">
        <form ng-submit="login()" class="col-md-3 col-md-offset-4 login-form">
-          <input ng-model="signin.login" class="form-control" type="text" placeholder="Login">
-          <input ng-model="signin.password" class="form-control" type="password" placeholder="Password">
+          <input ng-model="signin.login" class="form-control" type="text" placeholder="Login" value="antowka">
+          <input ng-model="signin.password" class="form-control" type="password" placeholder="Password" value="qty901">
           <button type="submit" class="btn btn-primary">Login</button>
        </form>
     </div>

@@ -5,17 +5,23 @@
 
        <rabbit:connection-factory id="connectionFactory" host="192.168.168.12" port="5672" username="root" password="qty901" />
 
-       <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="myExchange" routing-key="rabbitRoute.bar"/>
+       <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="myExchange"/>
 
        <rabbit:admin connection-factory="connectionFactory" />
 
-       <rabbit:queue name="receiveQueue" />
+       <rabbit:queue name="receiveQueueProject" />
+       <rabbit:queue name="receiveQueueUser" />
+       <rabbit:queue name="receiveQueueTask" />
+       <rabbit:queue name="receiveQueueResponse" />
 
-       <rabbit:topic-exchange name="myExchange">
+       <rabbit:direct-exchange name="myExchange">
               <rabbit:bindings>
-                     <rabbit:binding queue="receiveQueue" pattern="rabbitRoute.*" />
+                     <rabbit:binding queue="receiveQueueProject" key="rabbitRoute.project" />
+                     <rabbit:binding queue="receiveQueueUser" key="rabbitRoute.user" />
+                     <rabbit:binding queue="receiveQueueTask" key="rabbitRoute.task" />
+                     <rabbit:binding queue="receiveQueueResponse" key="rabbitRoute.response" />
               </rabbit:bindings>
-       </rabbit:topic-exchange>
+       </rabbit:direct-exchange>
 
 <!-- Listeners -->
        <bean id="userController" class="com.antowka.stm.controllers.UserController" />
@@ -24,19 +30,10 @@
 
        <!-- Listeners -->
        <rabbit:listener-container connection-factory="connectionFactory">
-              <rabbit:listener ref="mainController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.response" />
-       </rabbit:listener-container>
-
-       <rabbit:listener-container connection-factory="connectionFactory">
-              <rabbit:listener ref="userController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.user" />
-       </rabbit:listener-container>
-
-       <rabbit:listener-container connection-factory="connectionFactory">
-              <rabbit:listener ref="taskController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.task" />
-       </rabbit:listener-container>
-
-       <rabbit:listener-container connection-factory="connectionFactory">
-              <rabbit:listener ref="projectController" method="listenRabbit" queue-names="receiveQueue" response-routing-key="rabbitRoute.project" />
+              <rabbit:listener ref="mainController" method="listenRabbit" queue-names="receiveQueueResponse" />
+              <rabbit:listener ref="userController" method="listenRabbit" queue-names="receiveQueueUser" />
+              <rabbit:listener ref="taskController" method="listenRabbit" queue-names="receiveQueueTask" />
+              <rabbit:listener ref="projectController" method="listenRabbit" queue-names="receiveQueueProject" />
        </rabbit:listener-container>
 <!-- End Listeners -->
 

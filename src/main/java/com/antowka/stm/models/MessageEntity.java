@@ -65,23 +65,11 @@ public class MessageEntity {
      */
 
     /**
-     * Send message to web-socket
-     *
-     * @param session
-     * @param message
+     * Convert
      */
-    public void sendMessage(WebSocketSession session, MessageEntity message) throws JsonProcessingException {
+    public String toJson() throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
-        String jsonStringMessage = mapper.writeValueAsString(message);
-        TextMessage msg = new TextMessage(jsonStringMessage);
-
-        try {
-
-            session.sendMessage(msg);
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
+        return mapper.writeValueAsString(this);
     }
 }

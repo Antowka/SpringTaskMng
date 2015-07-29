@@ -1,8 +1,7 @@
 package com.antowka.stm.controllers;
 
-import com.antowka.stm.dao.TaskDao;
+import com.antowka.stm.dao.UserDao;
 import com.antowka.stm.models.MessageEntity;
-import com.antowka.stm.models.TaskEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -13,14 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserController implements Controller {
 
     @Autowired
-    private TaskDao taskDao;
+    private UserDao userDao;
 
     /**
      * Listener message from RabbitMQ
-     * @param msg
+     * @param message
      */
-    public void listenRabbit(String msg) {
-        System.out.println("User:" + msg);
+    @Override
+    public void listenRabbit(Object message) {
+        System.out.println(message);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class UserController implements Controller {
         //TaskEntity task = new TaskEntity("Anton", "Test task", 1);
         //taskDao.addTask(task);
 
-        TaskEntity task11 = taskDao.getTask(1);
-        String test = "0";
+        //TaskEntity task11 = taskDao.getTask(1);
+        //String test = "0";
     }
 
     @Override
